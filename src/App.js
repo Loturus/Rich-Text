@@ -49,7 +49,7 @@ function App() {
         'textAlign': textAlign,
       }])
 
-      setDivs([...divs, {text, quote}]);
+      setDivs([...divs, { text, quote }]);
 
       setText("");
       
@@ -92,6 +92,18 @@ function App() {
     setText(divs[index].text);
 
     setEditIndex(index);
+  }
+
+  function addImage(e) {
+    let photoFile = e.target.files[0];
+
+    setDivs([...divs, {text: "", photo: photoFile, quote: false}]);
+  }
+
+  function removeBlock(index) {
+    setDivs(divs.filter((div, divIndex) => divIndex !== index));
+
+    setText("");
   }
 
   return (
@@ -138,21 +150,30 @@ function App() {
 
 
         <label className="label-option-img">
-          <input type="file" style={{ display: "none" }} />
+          <input type="file" style={{ display: "none" }} onChange={e => addImage(e)} />
           <FiImage size={18} color="#000" />
         </label>
         
       </div>
 
       {divs.map((div, index) => (
-        <div className="div-text" key={index} onClick={() => onEdit(index)} style={format[index]}>
+        <div className="div-block" key={index} style={format[index]}>
+            <>
             { div.quote ? (
-              <>
+              <div className="div-text" onClick={() => onEdit(index)}>
                 <FaQuoteLeft size={18} color="#666" />
                   {div.text}
                 <FaQuoteRight size={18} color="#666" />
-              </>
-             ) : div.text}
+                { div.photo ? <div style={{ backgroundImage: `url(${URL.createObjectURL(div.photo)})` }} className="photos-added" /> : <></> }
+              </div>
+             ) : (
+              <div className="div-text" onClick={() => onEdit(index)}>
+                {div.text}
+                { div.photo ? <div style={{ backgroundImage: `url(${URL.createObjectURL(div.photo)})` }} className="photos-added" /> : <></> }
+              </div>)}
+              
+              <button className="btn-remove-text" onClick={() => removeBlock(index)}>x</button>
+            </>
         </div>
       ))}
 

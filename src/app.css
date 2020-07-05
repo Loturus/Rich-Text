@@ -62,11 +62,57 @@
     transform: scale(1.1);
 }
 
-.div-text {
+.div-block {
     width: 80%;
     word-wrap: break-word;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 5px;
     margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.div-block:hover {
+    border: 1px solid #555;
+}
+
+.div-text {
+    width: 100%;
+    height: 100%;
+}
+
+.btn-remove-text {
+    border: none;
+    position: absolute;
+    margin-top: -15px;
+    margin-left: -15px;
+    border-radius: 50%;
+    background-color: #999;
+    color: #ddd;
+    font-size: 7pt;
+    width: 20px;
+    height: 20px;
+    z-index: 5;
+}
+
+.div-block .btn-remove-text {
+    visibility: hidden;
+}
+
+.div-block:hover .btn-remove-text {
+    visibility: visible;
+}
+
+.btn-remove-text:hover {
+    transform: scale(1.1);
+    cursor: pointer;   
+}
+
+.photos-added {
+    width: 100%;
+    height: 400px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }

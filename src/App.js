@@ -18,7 +18,7 @@ import {
 import './app.css';
 
 function App() {
-  const [text, setText] = useState('');
+  const [textEdit, setTextEdit] = useState("");
   const [divs, setDivs] = useState([]);
 
   const [edit, setEdit] = useState(false);
@@ -41,6 +41,8 @@ function App() {
 
       e.preventDefault();
 
+      let text = e.target.value;
+
       setFormat([...format, {
         'fontWeight': bold ? 'bold' : 'normal',
         'fontStyle': italic ? 'italic' : 'normal',
@@ -51,7 +53,7 @@ function App() {
 
       setDivs([...divs, { text, quote }]);
 
-      setText("");
+      document.getElementById("input").value = ""
       
     }
   }
@@ -63,6 +65,8 @@ function App() {
     } else if(e.keyCode === 13) {
 
       e.preventDefault();
+
+      let text = e.target.value;
       
       let newDiv = divs;
 
@@ -81,15 +85,17 @@ function App() {
       };
 
       setFormat(newObj);
-      setText("");
+
       setEdit(false);
+
+      setTextEdit("");
     }
   }
 
   function onEdit(index) {
     setEdit(true);
 
-    setText(divs[index].text);
+    setTextEdit(divs[index].text);
 
     setEditIndex(index);
   }
@@ -98,12 +104,12 @@ function App() {
     let photoFile = e.target.files[0];
 
     setDivs([...divs, {text: "", photo: photoFile, quote: false}]);
+    setFormat([...format, {}]);
   }
 
   function removeBlock(index) {
     setDivs(divs.filter((div, divIndex) => divIndex !== index));
-
-    setText("");
+    setFormat(format.filter((obj, objIndex) => objIndex !== index))
   }
 
   return (
@@ -178,11 +184,11 @@ function App() {
       ))}
 
       {edit && (
-        <textarea className="input-all-text" id="input" value={text} onKeyDown={e => onEditText(e)} onChange={e => setText(e.target.value)} />
+        <textarea className="input-all-text" id="input" onKeyDown={e => onEditText(e)} defaultValue={textEdit} />
       )}
 
       { !edit && (
-        <textarea className="input-all-text" id="input" value={text} onKeyDown={e => onEnter(e)} onChange={e => setText(e.target.value)} />
+        <textarea className="input-all-text" id="input" onKeyDown={e => onEnter(e)} />
       )}
     </div>
   );
